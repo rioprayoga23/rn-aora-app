@@ -4,13 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import EmptyState from "../../components/EmptyState";
 import SearchInput from "../../components/SearchInput";
 import Trending from "../../components/Trending";
-import { images } from "../../constants";
-import { getAllPosts } from "../../lib/appwrite";
-import { useAppwrite } from "../../lib/useAppwrite";
 import VideoCard from "../../components/VideoCard";
+import { images } from "../../constants";
+import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
+import { useAppwrite } from "../../lib/useAppwrite";
 
 const Home = () => {
   const { data: posts, refecth, isLoading } = useAppwrite(getAllPosts);
+  const { data: latestPost } = useAppwrite(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
@@ -59,7 +60,7 @@ const Home = () => {
                 Latest Video
               </Text>
 
-              <Trending />
+              <Trending posts={latestPost} />
             </View>
           </View>
         )}
